@@ -1,0 +1,46 @@
+import cv2  # Import OpenCV library
+
+# =========================================================================
+# STEP 1: READ THE INPUT IMAGE USING THE ABSOLUTE PATH
+# =========================================================================
+input_path = "c:/collage/courses/ITA0517 COMPUTERVISION/LAB EXPERIMENTS CODES/exp2/sample_image.jpg"
+original_image = cv2.imread(input_path)
+
+if original_image is None:
+    print(f"CRITICAL ERROR: Could not find or open the image at: {input_path}")
+else:
+    # =========================================================================
+    # STEP 2: CONVERT TO GRAYSCALE & DETECT CANNY EDGES
+    # =========================================================================
+    gray_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2GRAY)
+    outline_image = cv2.Canny(gray_image, 100, 200)
+
+    # =========================================================================
+    # STEP 3: CONFIGURE WINDOW LAYOUTS FOR ACCURATE VISUAL RESIZING (The Fix!)
+    # =========================================================================
+    # First, we define unique, named workspace windows
+    window_name_1 = "1. Original Sample Image"
+    window_name_2 = "2. Canny Outline Output"
+
+    # We set these windows to WINDOW_NORMAL so they scale perfectly on your screen
+    cv2.namedWindow(window_name_1, cv2.WINDOW_NORMAL)
+    cv2.namedWindow(window_name_2, cv2.WINDOW_NORMAL)
+
+    # Alternatively, you can explicitly force them to shrink to a clear square if they are huge:
+    # cv2.resizeWindow(window_name_2, 600, 600)
+
+    # =========================================================================
+    # STEP 4: REAL-TIME DISPLAY INTERFACE
+    # =========================================================================
+    # Pass the processed arrays into our newly resized window environments
+    cv2.imshow(window_name_1, original_image)
+    cv2.imshow(window_name_2, outline_image)
+
+    print("Windows rendered with manual resizing enabled!")
+    print("ACTION REQUIRED: Click your mouse inside a window and press ANY keyboard key to exit.")
+
+    # =========================================================================
+    # STEP 5: INTERACTIVE PAUSE AND MEMORY CLEANUP
+    # =========================================================================
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
